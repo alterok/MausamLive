@@ -7,7 +7,6 @@ import com.alterok.mausamlive.core.data.remote.ApiKeyManager
 import com.google.android.material.color.DynamicColors
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
-import kotlin.random.Random
 
 @HiltAndroidApp
 class MousamLiveApplication : Application() {
@@ -19,7 +18,8 @@ class MousamLiveApplication : Application() {
         DynamicColors.applyToActivitiesIfAvailable(this)
 
         apiKeyManager.getApiKey().ifNull {
-            apiKeyManager.saveApiKey(getString(R.string.api_key))
+            // TODO: refer to "api_key_debug" resource in strings.xml 
+            apiKeyManager.saveApiKey(getString(R.string.api_key_release))
         }
     }
 }

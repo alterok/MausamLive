@@ -18,26 +18,7 @@ data class MausamInfoUIModel(
     val rainIntensityRounded = rainIntensity
     val rainAccumulationRounded = rainAccumulation
 
-    enum class TemperatureLevel {
-        VERY_LOW,
-        LOW,
-        MEDIUM,
-        HIGH,
-        VERY_HIGH;
-
-        companion object {
-            fun fromTemperature(temperature: Double) = when {
-                temperature.isNaN() -> VERY_LOW
-                temperature <= -10.0 -> VERY_LOW
-                temperature <= 10.0 -> LOW
-                temperature <= 30.0 -> MEDIUM
-                temperature <= 40 -> HIGH
-                else -> VERY_HIGH
-            }
-        }
-    }
-
-    fun hasEmptyInfo() = listOf(
+    fun hasNoSensors() = listOf(
         temperature,
         humidity,
         windSpeed,
@@ -46,7 +27,13 @@ data class MausamInfoUIModel(
         rainAccumulation
     ).all { it.isNaN() }
 
-    fun hasOnlyRainSensors() = temperature.isNaN() && rainIntensity.isNaN().not()
+    fun hasOnlyRainSensors() = temperature.isNaN() &&
+            humidity.isNaN() &&
+            windSpeed.isNaN() &&
+            windDirection.isNaN() &&
+            rainIntensity.isNaN().not() &&
+            rainAccumulation.isNaN().not()
+
     fun hasAllSensors() = listOf(
         temperature,
         humidity,
@@ -160,7 +147,8 @@ data class MausamInfoUIModel(
 
         val rainPhrase = when {
             weatherData.rainIntensity.isNaN() -> ""
-            weatherData.rainIntensity < 2.0 -> "Drizzling"
+            weatherData.rainIntensity <= 0.0 -> "Clear"
+            weatherData.rainIntensity <= 2.0 -> "Drizzling"
             weatherData.rainIntensity < 10.0 -> "Raining"
             else -> "Pouring"
         }
@@ -168,8 +156,12 @@ data class MausamInfoUIModel(
         val primaryConditions =
             listOf(rainPhrase, windPhrase, humidityPhrase).filter { it.isNotEmpty() }
         val primaryCondition = primaryConditions.firstOrNull() ?: ""
-        val phrase =
-            if (primaryCondition.isNotEmpty()) "$temperaturePhrase & $primaryCondition" else temperaturePhrase
+        val phrase = if (temperaturePhrase.isBlank()) {
+            primaryCondition
+        } else {
+            if (primaryCondition.isNotBlank()) "$temperaturePhrase & $primaryCondition" else temperaturePhrase
+        }
+
 
         return phrase
     }

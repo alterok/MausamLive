@@ -102,7 +102,7 @@ class DashboardFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        displayData = DisplayUtil.getDisplayResolution(requireContext())
+        displayData = DisplayUtil.getRealDisplaySize(requireContext())
     }
 
     override fun onCreateView(
@@ -168,13 +168,16 @@ class DashboardFragment : Fragment() {
 
                 false
             }
+
+            fragmentDashboardUnderlayHeader.setOnClickListener {
+                selectedLocality?.let { it1 -> setMapLocation(it1) }
+            }
         }
     }
 
     private fun setupViews() {
         ViewCompat.setOnApplyWindowInsetsListener(viewBinding.root) { v, insets ->
             val statusBarInsets = insets.getInsets(WindowInsetsCompat.Type.statusBars())
-            Log.i(TAG, "onViewCreated: updated statusbar padding ${statusBarInsets.top}")
 
             viewBinding.fragmentDashboardContainerUnderlay.updatePadding(top = statusBarInsets.top)
 
@@ -228,11 +231,8 @@ class DashboardFragment : Fragment() {
         viewBinding.fragmentDashboardContainerUnderlay.post {
             standardBottomSheetBehavior =
                 BottomSheetBehavior.from(viewBinding.fragmentDashboardOverlayBottomSheet).apply {
-//                    peekHeight = displayData.second - viewBinding.fragmentDashboardContainerUnderlay.height
-                    halfExpandedRatio = 0.5f
-
+                    peekHeight = displayData.second - viewBinding.fragmentDashboardContainerUnderlay.height
                     isHideable = false
-                    isFitToContents = false
 
                     state = BottomSheetBehavior.STATE_HALF_EXPANDED
                 } as BottomSheetBehavior<ViewGroup>
@@ -277,6 +277,9 @@ class DashboardFragment : Fragment() {
                         }
 
                         is UnauthorizedKeyException -> {
+                            showToast {
+                                getString(R.string.unauthorized_invalid_key) to Toast.LENGTH_SHORT
+                            }
                         }
 
                         is UnknownHostException -> {
@@ -308,8 +311,6 @@ class DashboardFragment : Fragment() {
                         }
                     }
                 }
-
-                showToast { error.getErrorMessage() to Toast.LENGTH_SHORT }
                 hideLoading()
             }
 
@@ -534,7 +535,7 @@ class DashboardFragment : Fragment() {
     private fun updateMausamInfoView(mausamInfo: MausamInfoUIModel?, isDarkMode: Boolean) {
         viewBinding.apply {
 
-            if (mausamInfo == null || mausamInfo.hasEmptyInfo()) {
+            if (mausamInfo == null || mausamInfo.hasNoSensors()) {
                 viewBinding.fragmentDashboardOverlayTemp.text =
                     getString(R.string.this_location_sensors_are_temporarily_down)
 

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">MausamLive</string>
-    <string name="api_key">Enter Your Api Key Here. Get It From Zomato\'s https://www.weatherunion.com/dashboard/</string>
+    <string name="api_key_debug">Enter Your Api Key Here. Also Change The Tag To "api_key_release". Get The FREE Key From Zomato\'s https://www.weatherunion.com/dashboard/</string>
     <string name="total_rainfall_since_time">mm, today</string>
     <string name="rain_intensity">Rain Intensity</string>
     <string name="humidity">Humidity</string>
