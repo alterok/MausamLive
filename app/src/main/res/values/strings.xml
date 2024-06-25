@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">MausamLive</string>
+    <string name="api_key">Enter Your Api Key Here. Get It From Zomato\'s https://www.weatherunion.com/dashboard/</string>
+    <string name="total_rainfall_since_time">mm, today</string>
+    <string name="rain_intensity">Rain Intensity</string>
+    <string name="humidity">Humidity</string>
+    <string name="wind">Wind</string>
+    <string name="updating_in_mins">Updating soon…</string>
+    <string name="total_rainfall">Total Rainfall</string>
+    <string name="this_location_has_only_rain_sensors">This location has only rain sensors.</string>
+    <string name="this_location_sensors_are_temporarily_down">This location\'s sensors are\ntemporarily down!</string>
+    <string name="my_location">My Location</string>
+    <string name="loading">Loading…</string>
+    <string name="heading_mausam_summary">Mausam Summary</string>
+    <string name="hint_enter_city_name">Enter city name</string>
+    <string name="msg_api_key_required">API Key Required!</string>
+    <string name="enter_api_key">Enter API Key</string>
+    <string name="api_key_is_required_to_proceed">API key is required to proceed.</string>
+    <string name="msg_api_key_not_found">API-Key not found. Enter your own key.</string>
+    <string name="unauthorized_invalid_key">Unauthorized! Invalid Key.</string>
+    <string name="msg_check_internet_connection">Check Internet Connection!</string>
+    <string name="msg_location_permission_is_not_granted">Location permission is not granted!</string>
+</resources>

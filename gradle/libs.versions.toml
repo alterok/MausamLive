@@ -1,0 +1,81 @@
+[versions]
+agp = "8.4.2"
+kotlin = "1.9.10"
+kotlinKSP = "1.9.10-1.0.13"
+coreKtx = "1.13.1"
+junit = "4.13.2"
+junitVersion = "1.1.5"
+espressoCore = "3.5.1"
+appcompat = "1.7.0"
+material = "1.12.0"
+roomDB = "2.6.1"
+lifecycle = "2.8.2"
+activityKtx = "1.9.0"
+constraintlayout = "2.1.4"
+hilt = "2.48.1"
+legacySupportV4 = "1.0.0"
+fragmentKtx = "1.8.0"
+navigation = "2.7.7"
+gson = "2.10.1"
+retrofit = "2.9.0"
+retrofitLogging = "4.12.0"
+logUtils = "2.3.0"
+dataResult = "13510b4561"
+kotlin-essential-ext = "2a15b4f6b0"
+lottieVersion = "6.4.1"
+mapbox = "11.4.1"
+
+[libraries]
+#testing
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+
+#android core
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+navigationKtx = {group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation"}
+navigationUIKtx = {group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation"}
+navigationDynamicFeatures = {group = "androidx.navigation", name = "navigation-dynamic-features-fragment", version.ref = "navigation"}
+
+#roomDB
+room = { group = "androidx.room", name = "room-runtime", version.ref = "roomDB" }
+roomPaging = { group = "androidx.room", name = "room-paging", version.ref = "roomDB" }
+roomCompiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomDB" }
+roomKtx = { group = "androidx.room", name = "room-ktx", version.ref = "roomDB" }
+
+#architectureComponents
+livedataKtx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle" }
+viewmodelKtx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+lifecycleCompiler = { group = "androidx.lifecycle", name = "lifecycle-compiler", version.ref = "lifecycle" }
+activityKtx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activityKtx" }
+
+#dagger-hilt
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+androidx-legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "legacySupportV4" }
+androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragmentKtx" }
+
+#retrofit
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofitLogging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "retrofitLogging" }
+converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+
+#misc
+logUtils = { group = "com.github.alterok", name = "LogUtils", version.ref = "logUtils" }
+dataResult = {group = "com.github.alterok", name = "Kotlin-DataResult", version.ref = "dataResult"}
+kotlinEssentialExt = {group = "com.github.alterok", name = "Kotlin-Essential-Extensions", version.ref = "kotlin-essential-ext"}
+lottie = {group = "com.airbnb.android", name = "lottie", version.ref = "lottieVersion"}
+mapbox = {group = "com.mapbox.maps", name = "android", version.ref = "mapbox"}
+
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+android-kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "kotlinKSP" }
+dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+navigation-safe-args = { id = "androidx.navigation.safeargs", version.ref="navigation" }
+androidx-navigation-safe-args-gradle-plugin = { id = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation" }

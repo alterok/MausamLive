@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_dashboard_container_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    tools:context=".dashboard.ui.DashboardFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragment_dashboard_container_underlay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fragment_dashboard_underlay_header"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:text="@string/loading"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Sector 7, Shivpuri" />
+
+        <com.google.android.material.search.SearchBar
+            android:id="@+id/fragment_dashboard_underlay_searchbar"
+            style="@style/Widget.Material3.SearchBar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:hint="@string/hint_enter_city_name"
+            app:backgroundTint="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="@id/fragment_dashboard_underlay_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/fragment_dashboard_underlay_header" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/fragment_dashboard_underlay_container_map"
+            style="?attr/materialCardViewOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="16dp"
+            app:cardBackgroundColor="@color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:0.85"
+            app:layout_constraintTop_toBottomOf="@id/fragment_dashboard_underlay_header"
+            app:layout_goneMarginTop="16dp"
+            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.ExtraLarge"
+            app:strokeColor="?colorOnPrimaryContainer">
+
+            <com.mapbox.maps.MapView
+                android:id="@+id/fragment_dashboard_underlay_map"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:mapbox_cameraBearing="0.0"
+                app:mapbox_cameraPitch="0.0"
+                app:mapbox_cameraTargetLat="28.476288"
+                app:mapbox_cameraTargetLng="77.013365"
+                app:mapbox_cameraZoom="10.0" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fragment_dashboard_overlay_my_location"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="8dp"
+            android:contentDescription="@string/my_location"
+            android:gravity="center"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            app:icon="@drawable/baseline_my_location_24"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/fragment_dashboard_underlay_container_map"
+            app:layout_constraintEnd_toEndOf="@id/fragment_dashboard_underlay_container_map"
+            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/fragment_dashboard_overlay_bottom_sheet"
+        style="@style/Widget.Material3.BottomSheet.Modal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:elevation="16dp"
+        android:focusable="true"
+        android:paddingVertical="4dp"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="0dp"
+        app:layout_behavior=".core.ui.views.RefreshableBottomSheetBehavior"
+        app:paddingBottomSystemWindowInsets="false">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/fragment_dashboard_overlay_content_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true">
+
+                <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+                    android:id="@+id/fragment_dashboard_overlay_drag_handle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/fragment_dashboard_overlay_container_temp"
+                    style="?attr/materialCardViewOutlinedStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="16dp"
+                    app:layout_constraintBottom_toTopOf="@id/fragment_dashboard_container_wind"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_dashboard_overlay_drag_handle"
+                    app:layout_goneMarginTop="16dp"
+                    app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.ExtraLarge">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="top|end"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginVertical="16dp"
+                        app:lottie_autoPlay="true"
+                        android:visibility="gone"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/rain_animation" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/fragment_dashboard_overlay_temp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:maxLines="2"
+                        android:padding="24dp"
+                        android:textSize="20sp"
+                        app:autoSizeMaxTextSize="180sp"
+                        app:autoSizeMinTextSize="12sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform"
+                        tools:text="-17°" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/fragment_dashboard_overlay_temp_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                        tools:text="Saturday - 16 Jun" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/fragment_dashboard_overlay_updating_est"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="32dp"
+                        android:fontFamily="sans-serif-light"
+                        android:padding="16dp"
+                        android:text="@string/updating_in_mins"
+                        android:textAllCaps="false"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:textSize="12sp" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/fragment_dashboard_overlay_locality"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginEnd="96dp"
+                        android:gravity="start"
+                        android:maxLines="2"
+                        android:padding="16dp"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                        tools:text="📍 Sector 10, Greater Noida" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/fragment_dashboard_overlay_description"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|end"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="center"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
+                        tools:text="Hot &amp; Windy" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/fragment_dashboard_container_wind"
+                    style="?attr/materialCardViewOutlinedStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toStartOf="@id/fragment_dashboard_container_humidity"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_dashboard_overlay_container_temp"
+                    app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.ExtraLarge"
+                    app:strokeColor="#FFF7A5"
+                    app:strokeWidth="0dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/fragment_dashboard_overlay_wind"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:padding="24dp"
+                        android:textColor="#BCAC0A"
+                        android:textSize="50sp"
+                        tools:text="25" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="35sp"
+                        android:gravity="center"
+                        android:textAllCaps="false"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
+                        tools:text="m/s" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/fragment_dashboard_overlay_wind_direction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|end"
+                        android:layout_margin="16dp"
+                        android:gravity="center"
+                        android:textAllCaps="false"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
+                        tools:text="315° NW" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/fragment_dashboard_overlay_wind_direction_icon"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:padding="2dp"
+                        android:layout_margin="12dp"
+                        app:srcCompat="@drawable/baseline_arrow_upward_24" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="@string/wind"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Overline" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/fragment_dashboard_container_humidity"
+                    style="?attr/materialCardViewOutlinedStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/fragment_dashboard_container_wind"
+                    app:layout_constraintTop_toTopOf="@id/fragment_dashboard_container_wind"
+                    app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.ExtraLarge"
+                    app:strokeWidth="0dp">
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/fragment_dashboard_overlay_humidity"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:padding="24dp"
+                        android:textSize="50sp"
+                        tools:text="34%" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="@string/humidity"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Overline" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/fragment_dashboard_container_rain"
+                    style="?attr/materialCardViewOutlinedStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintBottom_toTopOf="@id/fragment_dashboard_overlay_summary"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toStartOf="@id/fragment_dashboard_overlay_container_rainfall"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_dashboard_container_wind"
+                    app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.ExtraLarge"
+                    app:strokeWidth="0dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/fragment_dashboard_overlay_rain"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:padding="24dp"
+                        android:textSize="50sp"
+                        app:autoSizeMaxTextSize="50sp"
+                        app:autoSizeMinTextSize="25sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform"
+                        tools:text="4mm" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/fragment_dashboard_overlay_rain_unit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="35sp"
+                        android:gravity="center"
+                        android:text="mm/min"
+                        android:textAllCaps="false"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Overline" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="@string/rain_intensity"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Overline" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/fragment_dashboard_overlay_container_rainfall"
+                    style="?attr/materialCardViewOutlinedStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintBottom_toTopOf="@id/fragment_dashboard_overlay_summary"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/fragment_dashboard_container_rain"
+                    app:layout_constraintTop_toTopOf="@id/fragment_dashboard_container_rain"
+                    app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.ExtraLarge"
+                    app:strokeWidth="0dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/fragment_dashboard_overlay_rainfall"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:padding="24dp"
+                        android:textSize="50sp"
+                        app:autoSizeMaxTextSize="50sp"
+                        app:autoSizeMinTextSize="25sp"
+                        app:autoSizeStepGranularity="2sp"
+                        app:autoSizeTextType="uniform"
+                        tools:text="8mm" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="35sp"
+                        android:gravity="center"
+                        android:text="@string/total_rainfall_since_time"
+                        android:textAllCaps="false"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Overline" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="@string/total_rainfall"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Overline" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/fragment_dashboard_overlay_summary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginVertical="8dp"
+                    android:gravity="center|start"
+                    android:padding="24dp"
+                    android:text="@string/heading_mausam_summary"
+                    android:textAllCaps="false"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_dashboard_overlay_container_rainfall" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/fragment_dashboard_overlay_humidity_wind_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:constraint_referenced_ids="
+                 fragment_dashboard_container_humidity, fragment_dashboard_container_wind" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/fragment_dashboard_overlay_rain_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:constraint_referenced_ids="fragment_dashboard_container_rain,fragment_dashboard_overlay_container_rainfall" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <com.google.android.material.search.SearchView
+        android:id="@+id/fragment_dashboard_searchview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="24dp"
+        android:hint="@string/hint_enter_city_name"
+        app:layout_anchor="@id/fragment_dashboard_underlay_searchbar">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fragment_dashboard_searchview_results"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:padding="16dp" />
+    </com.google.android.material.search.SearchView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
