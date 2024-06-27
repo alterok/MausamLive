@@ -30,7 +30,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-//            buildConfigField("String", "MapboxAccessToken", "MAPBOX_DOWNLOADS_TOKEN")
         }
         release {
             isMinifyEnabled = false
@@ -90,6 +89,5 @@ dependencies {
     implementation(libs.kotlinEssentialExt)
     implementation(libs.lottie)
     implementation(libs.mapbox)
-    implementation("com.google.android.gms:play-services-location:21.3.0")
-
+    implementation(libs.location)
 }

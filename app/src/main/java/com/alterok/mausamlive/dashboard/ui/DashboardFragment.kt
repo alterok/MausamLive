@@ -89,13 +89,14 @@ class DashboardFragment : Fragment() {
     private lateinit var humidityViewTintManager: ViewTintManager
     private lateinit var rainIntensityViewTintManager: ViewTintManager
     private lateinit var totalRainViewTintManager: ViewTintManager
-    private lateinit var displayData:Pair<Int, Int>
+    private lateinit var displayData: Pair<Int, Int>
     private val defaultCameraZoom = 14.0
 
     @Inject
     lateinit var apiKeyManager: ApiKeyManager
     private lateinit var standardBottomSheetBehavior: BottomSheetBehavior<ViewGroup>
-    private lateinit var viewBinding: FragmentDashboardBinding
+    private var binding: FragmentDashboardBinding? = null
+    private val viewBinding get() = binding!!
     private val dashboardViewModel: DashboardViewModel by viewModels()
     private val compassViewModel: CompassWatcherViewModel by viewModels()
     private var loadingStateAnimator: ValueAnimator? = null
@@ -110,7 +111,7 @@ class DashboardFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         return FragmentDashboardBinding.inflate(inflater, container, false).apply {
-            viewBinding = this
+            binding = this
         }.root
     }
 
@@ -170,7 +171,7 @@ class DashboardFragment : Fragment() {
             }
 
             fragmentDashboardUnderlayHeader.setOnClickListener {
-                selectedLocality?.let { it1 -> setMapLocation(it1) }
+                selectedLocality?.let { it1 -> setMapLocation(it1, true) }
             }
         }
     }
@@ -231,7 +232,8 @@ class DashboardFragment : Fragment() {
         viewBinding.fragmentDashboardContainerUnderlay.post {
             standardBottomSheetBehavior =
                 BottomSheetBehavior.from(viewBinding.fragmentDashboardOverlayBottomSheet).apply {
-                    peekHeight = displayData.second - viewBinding.fragmentDashboardContainerUnderlay.height
+                    peekHeight =
+                        displayData.second - viewBinding.fragmentDashboardContainerUnderlay.height
                     isHideable = false
 
                     state = BottomSheetBehavior.STATE_HALF_EXPANDED
@@ -269,7 +271,7 @@ class DashboardFragment : Fragment() {
                 showLoading()
             }.onSuccess { data ->
                 hideLoading()
-            }.onFailure { error, mausamData ->
+            }.onFailure { error, _ ->
                 if (error is ExceptionResultError) {
                     when (error.exception) {
                         is ApiKeyNotFoundException -> {
@@ -303,6 +305,7 @@ class DashboardFragment : Fragment() {
                                 getString(R.string.unauthorized_invalid_key) to Toast.LENGTH_SHORT
                             }
                         }
+
                         NetworkResultError.TooManyRequests -> {
                             showToast { "Limit Reached! Wait till 12am." to Toast.LENGTH_SHORT }
                         }
@@ -360,7 +363,7 @@ class DashboardFragment : Fragment() {
      */
     private fun setCurrentLocality(locality: LocalityUIModel) {
         dashboardViewModel.onLocalitySelection(locality)
-        setMapLocation(locality)
+        setMapLocation(locality, false)
     }
 
 
@@ -421,23 +424,26 @@ class DashboardFragment : Fragment() {
     /**
      * Sets the map's focus coordinates
      */
-    private fun setMapLocation(locality: LocalityUIModel) {
+    private fun setMapLocation(locality: LocalityUIModel, isFocused: Boolean) {
         setMapLocation(
             Point.fromLngLat(
                 locality.longitude.toDouble(),
                 locality.latitude.toDouble()
-            )
+            ),
+            isFocused
         )
     }
 
     /**
      * Sets the map's focus coordinates
      */
-    private fun setMapLocation(point: Point) {
+    private fun setMapLocation(point: Point, isFocused: Boolean) {
         viewBinding.fragmentDashboardUnderlayMap.mapboxMap.setCamera(
             CameraOptions.Builder()
-                .center(point)
-//                .zoom(defaultCameraZoom)
+                .center(point).apply {
+                    if (isFocused)
+                        zoom(defaultCameraZoom)
+                }
                 .build()
         )
     }
@@ -618,7 +624,8 @@ class DashboardFragment : Fragment() {
                 )
             ).apply {
                 viewBinding.fragmentDashboardOverlayBottomSheet.backgroundTintList = this
-                viewBinding.fragmentDashboardUnderlayHeader.backgroundTintList = ColorStateList.valueOf(tempTint.backgroundColor)
+                viewBinding.fragmentDashboardUnderlayHeader.backgroundTintList =
+                    ColorStateList.valueOf(tempTint.backgroundColor)
                 viewBinding.fragmentDashboardUnderlayHeader.setTextColor(this)
             }
 
@@ -655,6 +662,11 @@ class DashboardFragment : Fragment() {
                 )
             )
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
     /**
