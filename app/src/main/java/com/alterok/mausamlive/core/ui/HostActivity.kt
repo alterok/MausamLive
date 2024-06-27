@@ -10,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.asLiveData
 import com.alterok.kotlin_essential_extensions.ifFalse
+import com.alterok.mausamlive.R
 import com.alterok.mausamlive.core.util.LocationPermissionManager
 import com.alterok.mausamlive.databinding.LayoutActivityHostBinding
 import com.mapbox.common.MapboxOptions
@@ -25,8 +26,7 @@ class HostActivity : AppCompatActivity() {
 
         hideSystemBars()
 
-        MapboxOptions.accessToken =
-            "pk.eyJ1Ijoia3Jpc2hhbnNoYXJtYTQ3IiwiYSI6ImNsZXBodmIxZTA4amkzc21qcjJvMThlZnoifQ.jfZSQVUDYkeasdJ2mfg7AQ"
+        MapboxOptions.accessToken = getString(R.string.mapbox_public_key)
 
         LocationPermissionManager.init(this)
         LocationPermissionManager.locationPermissionFlow.asLiveData().observe(this){
