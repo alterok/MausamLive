@@ -3,7 +3,6 @@
 MausamLive is an Indian weather app built on Zomato's WeatherUnion service to provide real-time weather data. The app offers a user-friendly interface with light and dark mode options, featuring a map view of cities and detailed weather information for selected localities.
 
 ## Supported Weather Sensors
-
 - Temperature (C)
 - Wind Speed (m/s)
 - Wind Direction (degrees)
@@ -12,22 +11,22 @@ MausamLive is an Indian weather app built on Zomato's WeatherUnion service to pr
 - Rain Accumulation (mm since 12AM)
   
 ## Features
-
 - Real-time weather updates
 - Light and Dark mode
 - Map view of cities with weather sensors
 - Detailed weather data for selected localities
 
+## Architecture
+- MVVM design pattern
+- Reactive data flow using Flow and Coroutines
+- Offline data persistance using ROOM
+- Map integration using MapBox with location search
+
 ## Screenshots
-
-### Dashboard - Light Mode
-![Dashboard Light Mode](screenshots/screenshot_light_dashboard.png)
-
-### Mausam Details - Light Mode
-![Dashboard Dark Mode](screenshots/screenshot_light_mausam.png)
-
-### Mausam Details - Dark Mode
-![Map View with Localities](screenshots/screenshot_dark_mausam.png)
+<p float="left" >
+    <img src="https://github.com/alterok/MausamLive/blob/9f69b834fa697e683b23f8ff4c0320bc634fdaa6/screenshots/screenshot_light_dashboard.png" width="25%"/>
+    <img src="https://github.com/alterok/MausamLive/blob/9f69b834fa697e683b23f8ff4c0320bc634fdaa6/screenshots/screenshot_dark_mausam_2.png" width="25%"/>
+</p>
 
 ## Installation
 
